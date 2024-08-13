@@ -85,7 +85,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
         }
 
         this.currentMode = Atum.config.gameMode;
-        this.safeDifficulty = this.difficulty = Atum.config.difficulty;
+        this.safeDifficulty = this.difficulty = Atum.config.worldDifficulty;
         this.cheatsEnabled = Atum.config.cheatsEnabled;
         this.tweakedCheats = true;
         if (Atum.config.hasModifiedGameRules()) {
@@ -172,7 +172,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
         }
 
         Atum.config.gameMode = this.currentMode;
-        Atum.config.difficulty = this.difficulty;
+        Atum.config.worldDifficulty = this.difficulty;
         Atum.config.cheatsEnabled = this.cheatsEnabled;
         Atum.config.setGameRules(this.gameRules.copy());
         Atum.config.setDataPackSettings(this.dataPackSettings);
