@@ -128,7 +128,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
         }
         this.dataPackSettings = new DataPackSettings(Atum.config.dataPackSettings.getEnabled(), Atum.config.dataPackSettings.getDisabled());
 
-        ((IMoreOptionsDialog) this.moreOptionsDialog).atum$loadAtumConfigurations(Atum.isRunning() ? seed : Atum.config.seed);
+        ((IMoreOptionsDialog) this.moreOptionsDialog).atum$loadAtumConfigurations(seed);
 
         if (!Atum.isRunning()) {
             this.dataPackTempDir = Atum.config.dataPackDirectory;
