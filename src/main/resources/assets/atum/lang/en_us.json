@@ -7,6 +7,7 @@
   "atum.menu.legal_settings.warning": "You are using settings that are not allowed for Any% speedruns!",
   "atum.menu.legal_settings.confirm": "Confirm",
   "atum.menu.legal_settings.reset": "Reset Settings",
+  "atum.menu.waiting_for_seed": "Waiting For Seed...",
 
   "atum.config.demoMode": "Demo Mode: %s"
 }

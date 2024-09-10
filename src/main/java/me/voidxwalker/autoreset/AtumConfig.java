@@ -4,9 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import me.voidxwalker.autoreset.interfaces.ISeedStringHolder;
 import me.voidxwalker.autoreset.mixin.access.CreateWorldScreen$ModeAccessor;
 import me.voidxwalker.autoreset.mixin.access.GeneratorTypeAccessor;
 import me.voidxwalker.autoreset.mixin.access.RuleAccessor;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
@@ -333,10 +335,18 @@ public class AtumConfig implements SpeedrunConfig {
             return debugText;
         }
 
-        if (this.isSetSeed()) {
-            debugText.add("Resetting the seed \"" + this.seed + "\"");
-        } else {
-            debugText.add("Resetting a random seed");
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.isIntegratedServerRunning()) {
+            String creationSeed = ((ISeedStringHolder) client.getServer().getSaveProperties().getGeneratorOptions()).atum$getSeedString();
+            if (!creationSeed.isEmpty()) {
+                if (Atum.getSeedProvider().shouldShowSeed()) {
+                    debugText.add("Resetting the seed \"" + creationSeed + "\"");
+                } else {
+                    debugText.add("Resetting a set seed");
+                }
+            } else {
+                debugText.add("Resetting a random seed");
+            }
         }
 
         for (Text text : this.getIllegalSettingsTexts()) {

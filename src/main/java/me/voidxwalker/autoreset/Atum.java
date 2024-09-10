@@ -8,12 +8,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Optional;
+
 public class Atum implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     public static AtumConfig config;
     public static KeyBinding resetKey;
     private static boolean running = false;
     private static boolean shouldReset;
+
+    private static final SeedProvider DEFAULT_SEED_PROVIDER = new SeedProvider() {
+        @Override
+        public Optional<String> getSeed() {
+            return Optional.of(Atum.config.seed);
+        }
+
+        @Override
+        public void waitForSeed() {
+        }
+
+        @Override
+        public boolean shouldShowSeed() {
+            return true;
+        }
+    };
+    private static SeedProvider seedProvider = DEFAULT_SEED_PROVIDER;
 
     public static void createNewWorld() {
         running = true;
@@ -71,5 +90,21 @@ public class Atum implements ClientModInitializer {
                 GLFW.GLFW_KEY_F6,
                 "key.categories.atum"
         ));
+    }
+
+    public static SeedProvider getSeedProvider() {
+        return seedProvider;
+    }
+
+    @SuppressWarnings("unused")
+    public static void setSeedProvider(SeedProvider seedProvider) {
+        assert seedProvider != null;
+        assert Atum.seedProvider == DEFAULT_SEED_PROVIDER; // Only allow changing once
+        assert !Atum.isRunning();
+        Atum.seedProvider = seedProvider;
+    }
+
+    public static boolean usesConfigForSeed(){
+        return Atum.seedProvider == DEFAULT_SEED_PROVIDER;
     }
 }

@@ -6,9 +6,11 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import me.voidxwalker.autoreset.Atum;
 import me.voidxwalker.autoreset.AtumConfig;
+import me.voidxwalker.autoreset.interfaces.ISeedStringHolder;
 import me.voidxwalker.autoreset.interfaces.IMoreOptionsDialog;
 import me.voidxwalker.autoreset.mixin.access.GeneratorTypeAccessor;
 import net.minecraft.client.gui.screen.world.MoreOptionsDialog;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.world.GeneratorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -37,8 +39,9 @@ public abstract class MoreOptionsDialogMixin implements IMoreOptionsDialog {
     private String seedText;
 
     @Override
-    public void atum$loadAtumConfigurations() {
-        this.seedText = Atum.config.seed;
+    public void atum$loadAtumConfigurations(String seed) {
+        this.seedText = seed == null ? "" : seed;
+        ((ISeedStringHolder) this.generatorOptions).atum$setSeedString(seed);
 
         if (Atum.config.generatorType == AtumConfig.AtumGeneratorType.DEFAULT) {
             if (Atum.config.structures != this.generatorOptions.shouldGenerateStructures()) {
