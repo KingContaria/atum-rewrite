@@ -18,8 +18,8 @@ public abstract class LevelLoadingScreenMixin implements ISeedStringHolder {
 
     @Override
     public void atum$setSeedString(String seedString) {
-        assert this.seedString == null; // No double setting!
-        assert seedString != null;
+        Atum.ensureState(this.seedString == null); // No double setting!
+        Atum.ensureState(seedString != null);
         this.seedString = seedString;
     }
 
