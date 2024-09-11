@@ -2,7 +2,9 @@ package me.voidxwalker.autoreset.interfaces;
 
 public interface IMoreOptionsDialog {
 
-    void atum$loadAtumConfigurations(String seed);
+    void atum$loadAtumConfigurations();
+
+    void atum$setSeed(String seedString);
 
     void atum$saveAtumConfigurations();
 

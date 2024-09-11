@@ -38,9 +38,7 @@ public abstract class MoreOptionsDialogMixin implements IMoreOptionsDialog {
     private String seedText;
 
     @Override
-    public void atum$loadAtumConfigurations(String seed) {
-        this.seedText = seed == null ? "" : seed;
-        ((ISeedStringHolder) this.generatorOptions).atum$setSeedString(seed);
+    public void atum$loadAtumConfigurations() {
 
         if (Atum.config.generatorType == AtumConfig.AtumGeneratorType.DEFAULT) {
             if (Atum.config.structures != this.generatorOptions.shouldGenerateStructures()) {
@@ -85,6 +83,12 @@ public abstract class MoreOptionsDialogMixin implements IMoreOptionsDialog {
                     Atum.LOGGER.warn("Failed to parse biome: {}", biomeID);
                 }
         }
+    }
+
+    @Override
+    public void atum$setSeed(String seedString) {
+        this.seedText = seedString;
+        ((ISeedStringHolder) this.generatorOptions).atum$setSeedString(seedString);
     }
 
     @Override

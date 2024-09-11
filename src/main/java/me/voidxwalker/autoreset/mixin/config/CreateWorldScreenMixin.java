@@ -82,10 +82,6 @@ public abstract class CreateWorldScreenMixin extends Screen {
 
     @Unique
     private AbstractButtonWidget demoModeButton;
-    @Unique
-    private String seed;
-    @Unique
-    private boolean shouldOpenWaitingScreen = false;
 
     @Shadow
     protected abstract void createLevel();
@@ -100,27 +96,6 @@ public abstract class CreateWorldScreenMixin extends Screen {
             return;
         }
 
-        if (Atum.isRunning()) {
-            SeedProvider seedProvider = Atum.getSeedProvider();
-            Optional<String> seedOpt = seedProvider.getSeed();
-            if (seedOpt.isPresent()) {
-                seed = seedOpt.get();
-            } else {
-                if (MinecraftClient.getInstance().isOnThread()) {
-                    this.shouldOpenWaitingScreen = true;
-                    return;
-                } else {
-                    while (!seedOpt.isPresent()) {
-                        seedProvider.waitForSeed();
-                        seedOpt = seedProvider.getSeed();
-                    }
-                    seed = seedOpt.get();
-                }
-            }
-        } else {
-            seed = Atum.config.seed; // Set seed for config screen
-        }
-
         this.currentMode = Atum.config.gameMode;
         this.safeDifficulty = this.difficulty = Atum.config.worldDifficulty;
         this.cheatsEnabled = Atum.config.cheatsEnabled;
@@ -130,7 +105,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
         }
         this.dataPackSettings = new DataPackSettings(Atum.config.dataPackSettings.getEnabled(), Atum.config.dataPackSettings.getDisabled());
 
-        ((IMoreOptionsDialog) this.moreOptionsDialog).atum$loadAtumConfigurations(seed);
+        ((IMoreOptionsDialog) this.moreOptionsDialog).atum$loadAtumConfigurations();
 
         if (!Atum.isRunning()) {
             this.dataPackTempDir = Atum.config.dataPackDirectory;
@@ -164,11 +139,31 @@ public abstract class CreateWorldScreenMixin extends Screen {
             return;
         }
 
-        if (this.shouldOpenWaitingScreen) {
-            assert client != null;
-            client.openScreen(Atum.getSeedProvider().getWaitingScreen());
-            return;
+        String seed;
+
+        if (Atum.isRunning()) {
+            SeedProvider seedProvider = Atum.getSeedProvider();
+            Optional<String> seedOpt = seedProvider.getSeed();
+            if (seedOpt.isPresent()) {
+                seed = seedOpt.get();
+            } else {
+                if (MinecraftClient.getInstance().isOnThread()) {
+                    assert client != null;
+                    client.openScreen(Atum.getSeedProvider().getWaitingScreen());
+                    return;
+                } else {
+                    while (!seedOpt.isPresent()) {
+                        seedProvider.waitForSeed();
+                        seedOpt = seedProvider.getSeed();
+                    }
+                    seed = seedOpt.get();
+                }
+            }
+        } else {
+            seed = Atum.config.seed; // Set seed for config screen
         }
+
+        ((IMoreOptionsDialog) moreOptionsDialog).atum$setSeed(seed);
 
         if (Atum.isRunning()) {
             if (Atum.inDemoMode()) {
