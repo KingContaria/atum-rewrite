@@ -177,7 +177,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
 
             this.levelNameField.setText(seed.isEmpty() ? Atum.config.attemptTracker.incrementAndGetWorldName(AttemptTracker.Type.RSG) : Atum.config.attemptTracker.incrementAndGetWorldName(AttemptTracker.Type.SSG));
             if (!seed.isEmpty() && Atum.getSeedProvider().shouldShowSeed()) {
-                Atum.LOGGER.info("Creating \"{}\" with seed \"{}\"...", this.levelNameField.getText(), Atum.config.seed);
+                Atum.LOGGER.info("Creating \"{}\" with seed \"{}\"...", this.levelNameField.getText(), seed);
             } else {
                 Atum.LOGGER.info("Creating \"{}\"...", this.levelNameField.getText());
             }
