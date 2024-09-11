@@ -23,20 +23,6 @@ public class Atum implements ClientModInitializer {
         public Optional<String> getSeed() {
             return Optional.of(Atum.config.seed);
         }
-
-        @Override
-        public void waitForSeed() {
-        }
-
-        @Override
-        public boolean shouldShowSeed() {
-            return true;
-        }
-
-        @Override
-        public Screen getWaitingScreen() {
-            throw new IllegalStateException("Default seed provider reached waiting screen!");
-        }
     };
     private static SeedProvider seedProvider = DEFAULT_SEED_PROVIDER;
 
