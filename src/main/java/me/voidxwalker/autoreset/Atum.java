@@ -103,8 +103,4 @@ public class Atum implements ClientModInitializer {
         assert !Atum.isRunning();
         Atum.seedProvider = seedProvider;
     }
-
-    public static boolean usesConfigForSeed(){
-        return Atum.seedProvider == DEFAULT_SEED_PROVIDER;
-    }
 }
