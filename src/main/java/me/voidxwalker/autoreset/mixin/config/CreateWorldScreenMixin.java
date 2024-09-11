@@ -162,6 +162,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
             return;
         }
 
+        assert client != null;
         if (Atum.isRunning() && seed == null && client.isOnThread()) {
             client.openScreen(new WaitingForSeedScreen());
             return;
