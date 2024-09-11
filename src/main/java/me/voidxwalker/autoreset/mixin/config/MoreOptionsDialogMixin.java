@@ -10,7 +10,6 @@ import me.voidxwalker.autoreset.interfaces.ISeedStringHolder;
 import me.voidxwalker.autoreset.interfaces.IMoreOptionsDialog;
 import me.voidxwalker.autoreset.mixin.access.GeneratorTypeAccessor;
 import net.minecraft.client.gui.screen.world.MoreOptionsDialog;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.world.GeneratorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
