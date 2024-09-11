@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
+import java.util.Objects;
+
 @Mixin(LevelLoadingScreen.class)
 public abstract class LevelLoadingScreenMixin implements ISeedStringHolder {
     @Unique
@@ -18,9 +20,8 @@ public abstract class LevelLoadingScreenMixin implements ISeedStringHolder {
 
     @Override
     public void atum$setSeedString(String seedString) {
-        Atum.ensureState(this.seedString == null); // No double setting!
-        Atum.ensureState(seedString != null);
-        this.seedString = seedString;
+        Atum.ensureState(this.seedString == null, "Seed string for this LevelLoadingScreen has already been set!");
+        this.seedString = Objects.requireNonNull(seedString);
     }
 
     @Override

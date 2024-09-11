@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class Atum implements ClientModInitializer {
@@ -78,14 +79,13 @@ public class Atum implements ClientModInitializer {
 
     @SuppressWarnings("unused")
     public static void setSeedProvider(SeedProvider seedProvider) {
-        Atum.ensureState(seedProvider != null);
-        Atum.ensureState(Atum.seedProvider == DEFAULT_SEED_PROVIDER); // Only allow changing once
-        Atum.ensureState(!Atum.isRunning());
-        Atum.seedProvider = seedProvider;
+        Atum.ensureState(Atum.seedProvider == DEFAULT_SEED_PROVIDER, "Seed provider has already been changed! It is likely that multiple mods are trying to set the seed provider!");
+        Atum.ensureState(!Atum.isRunning(), "Seed provider set at an illegal time!");
+        Atum.seedProvider = Objects.requireNonNull(seedProvider);
     }
 
-    public static void ensureState(boolean condition) throws IllegalStateException {
-        if (!condition) throw new IllegalStateException();
+    public static void ensureState(boolean condition, String exceptionMessage) throws IllegalStateException {
+        if (!condition) throw new IllegalStateException(exceptionMessage);
     }
 
     @Override
