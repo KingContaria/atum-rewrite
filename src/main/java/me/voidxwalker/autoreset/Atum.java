@@ -83,15 +83,6 @@ public class Atum implements ClientModInitializer {
         return config.isSetSeed() || config.demoMode;
     }
 
-    @Override
-    public void onInitializeClient() {
-        resetKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Create New World",
-                GLFW.GLFW_KEY_F6,
-                "key.categories.atum"
-        ));
-    }
-
     public static SeedProvider getSeedProvider() {
         return seedProvider;
     }
@@ -106,5 +97,14 @@ public class Atum implements ClientModInitializer {
 
     public static void ensureState(boolean condition) throws IllegalStateException {
         if (!condition) throw new IllegalStateException();
+    }
+
+    @Override
+    public void onInitializeClient() {
+        resetKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Create New World",
+                GLFW.GLFW_KEY_F6,
+                "key.categories.atum"
+        ));
     }
 }
