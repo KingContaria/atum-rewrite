@@ -1,5 +1,6 @@
 package me.voidxwalker.autoreset;
 
+import me.voidxwalker.autoreset.gui.AtumWaitingScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -38,7 +39,9 @@ public class Atum implements ClientModInitializer {
     }
 
     public static void scheduleReset() {
-        shouldReset = true;
+        if (!(MinecraftClient.getInstance().currentScreen instanceof AtumWaitingScreen)) {
+            shouldReset = true;
+        }
     }
 
     public static boolean isResetScheduled() {
