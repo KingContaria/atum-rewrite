@@ -84,6 +84,8 @@ public abstract class CreateWorldScreenMixin extends Screen {
     private AbstractButtonWidget demoModeButton;
     @Unique
     private String seed;
+    @Unique
+    private boolean shouldOpenWaitingScreen = false;
 
     @Shadow
     protected abstract void createLevel();
@@ -105,6 +107,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
                 seed = seedOpt.get();
             } else {
                 if (MinecraftClient.getInstance().isOnThread()) {
+                    this.shouldOpenWaitingScreen = true;
                     return;
                 } else {
                     while (!seedOpt.isPresent()) {
@@ -161,8 +164,8 @@ public abstract class CreateWorldScreenMixin extends Screen {
             return;
         }
 
-        assert client != null;
-        if (Atum.isRunning() && seed == null && client.isOnThread()) {
+        if (this.shouldOpenWaitingScreen) {
+            assert client != null;
             client.openScreen(Atum.getSeedProvider().getWaitingScreen());
             return;
         }
