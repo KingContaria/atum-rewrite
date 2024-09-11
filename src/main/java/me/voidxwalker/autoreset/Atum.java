@@ -17,12 +17,7 @@ public class Atum implements ClientModInitializer {
     private static boolean running = false;
     private static boolean shouldReset;
 
-    private static final SeedProvider DEFAULT_SEED_PROVIDER = new SeedProvider() {
-        @Override
-        public Optional<String> getSeed() {
-            return Optional.of(Atum.config.seed);
-        }
-    };
+    private static final SeedProvider DEFAULT_SEED_PROVIDER = () -> Optional.of(Atum.config.seed);
     private static SeedProvider seedProvider = DEFAULT_SEED_PROVIDER;
 
     public static void createNewWorld() {
