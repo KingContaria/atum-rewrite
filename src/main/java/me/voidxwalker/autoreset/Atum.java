@@ -99,7 +99,7 @@ public class Atum implements ClientModInitializer {
     @SuppressWarnings("unused")
     public static void setSeedProvider(SeedProvider seedProvider) {
         Atum.ensureState(seedProvider != null);
-        Atum.ensureState(Atum.seedProvider == DEFAULT_SEED_PROVIDER; // Only allow changing onc)e
+        Atum.ensureState(Atum.seedProvider == DEFAULT_SEED_PROVIDER); // Only allow changing once
         Atum.ensureState(!Atum.isRunning());
         Atum.seedProvider = seedProvider;
     }
