@@ -1,5 +1,7 @@
 package me.voidxwalker.autoreset;
 
+import net.minecraft.client.gui.screen.Screen;
+
 import java.util.Optional;
 
 public interface SeedProvider {
@@ -8,4 +10,6 @@ public interface SeedProvider {
     void waitForSeed();
 
     boolean shouldShowSeed();
+
+    Screen getWaitingScreen();
 }

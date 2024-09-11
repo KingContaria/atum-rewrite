@@ -6,7 +6,6 @@ import me.voidxwalker.autoreset.AttemptTracker;
 import me.voidxwalker.autoreset.Atum;
 import me.voidxwalker.autoreset.AtumCreateWorldScreen;
 import me.voidxwalker.autoreset.SeedProvider;
-import me.voidxwalker.autoreset.gui.WaitingForSeedScreen;
 import me.voidxwalker.autoreset.interfaces.IMoreOptionsDialog;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -164,7 +163,7 @@ public abstract class CreateWorldScreenMixin extends Screen {
 
         assert client != null;
         if (Atum.isRunning() && seed == null && client.isOnThread()) {
-            client.openScreen(new WaitingForSeedScreen());
+            client.openScreen(Atum.getSeedProvider().getWaitingScreen());
             return;
         }
 
