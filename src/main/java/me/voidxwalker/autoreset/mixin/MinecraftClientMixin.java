@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
+
 // We set priority to 500 so our executeReset inject runs right before worldpreview checks if it should reset
 @Mixin(value = MinecraftClient.class, priority = 500)
 public abstract class MinecraftClientMixin {
@@ -117,7 +119,8 @@ public abstract class MinecraftClientMixin {
 
     @ModifyVariable(method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/RegistryTracker$Modifiable;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V", at = @At("STORE"))
     private LevelLoadingScreen addSeedToLLS(LevelLoadingScreen levelLoadingScreen, @Local MinecraftClient.IntegratedResourceManager integratedResourceManager) {
-        ((ISeedStringHolder) levelLoadingScreen).atum$setSeedString(((ISeedStringHolder) integratedResourceManager.getSaveProperties().getGeneratorOptions()).atum$getSeedString());
+        Optional.ofNullable(((ISeedStringHolder) integratedResourceManager.getSaveProperties().getGeneratorOptions()).atum$getSeedString())
+                .ifPresent(seedString -> ((ISeedStringHolder) levelLoadingScreen).atum$setSeedString(seedString));
         return levelLoadingScreen;
     }
 }
