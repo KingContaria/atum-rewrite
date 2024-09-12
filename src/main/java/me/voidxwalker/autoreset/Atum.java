@@ -54,7 +54,8 @@ public class Atum implements ClientModInitializer {
     }
 
     public static boolean isBlocking() {
-        return MinecraftClient.getInstance().getOverlay() != null || isLoadingWorld();
+        MinecraftClient client = MinecraftClient.getInstance();
+        return client.getOverlay() != null || isLoadingWorld() || client.currentScreen instanceof AtumWaitingScreen;
     }
 
     public static boolean isInWorld() {
