@@ -6,10 +6,11 @@ import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import me.voidxwalker.autoreset.Atum;
 import me.voidxwalker.autoreset.AtumConfig;
-import me.voidxwalker.autoreset.interfaces.ISeedStringHolder;
 import me.voidxwalker.autoreset.interfaces.IMoreOptionsDialog;
+import me.voidxwalker.autoreset.interfaces.ISeedStringHolder;
 import me.voidxwalker.autoreset.mixin.access.GeneratorTypeAccessor;
 import net.minecraft.client.gui.screen.world.MoreOptionsDialog;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.world.GeneratorType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -36,6 +37,8 @@ public abstract class MoreOptionsDialogMixin implements IMoreOptionsDialog {
     private RegistryTracker.Modifiable registryManager;
     @Shadow
     private String seedText;
+    @Shadow
+    private TextFieldWidget seedTextField;
 
     @Override
     public void atum$loadAtumConfigurations() {
@@ -88,6 +91,7 @@ public abstract class MoreOptionsDialogMixin implements IMoreOptionsDialog {
     @Override
     public void atum$setSeed(String seedString) {
         this.seedText = seedString;
+        if (this.seedTextField != null) this.seedTextField.setText(this.seedText);
         ((ISeedStringHolder) this.generatorOptions).atum$setSeedString(seedString);
     }
 
