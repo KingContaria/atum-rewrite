@@ -152,9 +152,11 @@ public abstract class CreateWorldScreenMixin extends Screen {
                     client.openScreen(Atum.getSeedProvider().getWaitingScreen());
                     return;
                 } else {
-                    while (!seedOpt.isPresent()) {
-                        seedProvider.waitForSeed();
-                        seedOpt = seedProvider.getSeed();
+                    // Note: If a mod ever makes AtumCreateWorldScreens in parallel, the next two lines would cause a race condition.
+                    seedProvider.waitForSeed();
+                    seedOpt = seedProvider.getSeed();
+                    if (!seedOpt.isPresent()) {
+                        throw new IllegalStateException("No seed found after waiting!");
                     }
                     seed = seedOpt.get();
                 }
