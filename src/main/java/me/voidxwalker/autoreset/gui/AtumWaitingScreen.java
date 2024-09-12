@@ -10,11 +10,13 @@ public abstract class AtumWaitingScreen extends Screen {
         super(title);
     }
 
+    @SuppressWarnings("unused")
     protected final void cancel(){
         Atum.stopRunning();
         onClose();
     }
 
+    @SuppressWarnings("unused")
     protected final void onSeedFound(){
         assert this.client != null;
         this.client.openScreen(new AtumCreateWorldScreen(null));
