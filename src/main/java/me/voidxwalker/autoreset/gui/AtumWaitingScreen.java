@@ -12,17 +12,25 @@ public abstract class AtumWaitingScreen extends Screen {
         super(title);
     }
 
-    @SuppressWarnings("unused")
-    protected final void cancel() {
+    protected final void cancelWorldCreation() {
         Atum.stopRunning();
         onClose();
     }
 
     @SuppressWarnings("unused")
-    protected final void onSeedFound() {
+    protected final void continueWorldCreation() {
         assert this.client != null;
         acwsOpened = true;
         this.client.openScreen(new AtumCreateWorldScreen(null));
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 256 && this.shouldCloseOnEsc()) {
+            cancelWorldCreation();
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -32,6 +40,6 @@ public abstract class AtumWaitingScreen extends Screen {
 
     @Override
     public void removed() {
-        Atum.ensureState(acwsOpened || !Atum.isRunning(), "Improper closing of AtumWaitingScreen. Methods onSeedFound or cancel should be used.");
+        Atum.ensureState(acwsOpened || !Atum.isRunning(), "Improper closing of AtumWaitingScreen. Methods continueWorldCreation or cancelWorldCreation should be used.");
     }
 }

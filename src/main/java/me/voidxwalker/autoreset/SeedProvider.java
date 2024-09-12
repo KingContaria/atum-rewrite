@@ -1,7 +1,6 @@
 package me.voidxwalker.autoreset;
 
 import me.voidxwalker.autoreset.gui.AtumWaitingScreen;
-import net.minecraft.client.gui.screen.Screen;
 
 import java.util.Optional;
 
@@ -26,7 +25,9 @@ public interface SeedProvider {
     }
 
     /**
-     * Gets the waiting screen. The implemented waiting screen should run the provided onSeedFound method once a seed is available, or alternatively cancel.
+     * Gets the waiting screen.
+     * The implemented waiting screen should run the provided continueWorldCreation method once a seed is available, or alternatively cancelWorldCreation.
+     * The implemented waiting screen can also override shouldCloseOnEsc(), returning true to allow cancelling with the 'escape' key.
      */
     default AtumWaitingScreen getWaitingScreen() {
         throw new IllegalStateException("No waiting screen available!");
