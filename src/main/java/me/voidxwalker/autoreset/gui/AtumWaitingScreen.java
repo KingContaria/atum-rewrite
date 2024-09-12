@@ -20,7 +20,7 @@ public abstract class AtumWaitingScreen extends Screen {
     @SuppressWarnings("unused")
     protected final void continueWorldCreation() {
         assert this.client != null;
-        acwsOpened = true;
+        this.acwsOpened = true;
         this.client.openScreen(new AtumCreateWorldScreen(null));
     }
 
@@ -40,6 +40,6 @@ public abstract class AtumWaitingScreen extends Screen {
 
     @Override
     public void removed() {
-        Atum.ensureState(acwsOpened || !Atum.isRunning(), "Improper closing of AtumWaitingScreen. Methods continueWorldCreation or cancelWorldCreation should be used.");
+        Atum.ensureState(this.acwsOpened || !Atum.isRunning(), "Improper closing of AtumWaitingScreen. Methods continueWorldCreation or cancelWorldCreation should be used.");
     }
 }
