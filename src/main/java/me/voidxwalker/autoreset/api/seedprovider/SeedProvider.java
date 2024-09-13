@@ -1,6 +1,4 @@
-package me.voidxwalker.autoreset;
-
-import me.voidxwalker.autoreset.gui.AtumWaitingScreen;
+package me.voidxwalker.autoreset.api.seedprovider;
 
 import java.util.Optional;
 

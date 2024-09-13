@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import me.voidxwalker.autoreset.AttemptTracker;
 import me.voidxwalker.autoreset.Atum;
 import me.voidxwalker.autoreset.AtumCreateWorldScreen;
-import me.voidxwalker.autoreset.SeedProvider;
+import me.voidxwalker.autoreset.api.seedprovider.SeedProvider;
 import me.voidxwalker.autoreset.interfaces.IMoreOptionsDialog;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

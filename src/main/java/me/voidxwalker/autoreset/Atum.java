@@ -1,6 +1,7 @@
 package me.voidxwalker.autoreset;
 
-import me.voidxwalker.autoreset.gui.AtumWaitingScreen;
+import me.voidxwalker.autoreset.api.seedprovider.AtumWaitingScreen;
+import me.voidxwalker.autoreset.api.seedprovider.SeedProvider;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
