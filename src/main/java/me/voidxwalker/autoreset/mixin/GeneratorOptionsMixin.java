@@ -29,6 +29,6 @@ public abstract class GeneratorOptionsMixin implements ISeedStringHolder {
 
     @Inject(method = {"withHardcore", "withDimensions", "withBonusChest", "toggleBonusChest", "toggleGenerateStructures"}, at = @At("RETURN"))
     private void transferSeedString(CallbackInfoReturnable<GeneratorOptions> cir) {
-        ((ISeedStringHolder) cir.getReturnValue()).atum$setSeedString(this.seedString);
+        if (this.seedString != null) ((ISeedStringHolder) cir.getReturnValue()).atum$setSeedString(this.seedString);
     }
 }
