@@ -337,16 +337,24 @@ public class AtumConfig implements SpeedrunConfig {
 
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.isIntegratedServerRunning()) {
+            String seedLine;
             String creationSeed = ((ISeedStringHolder) client.getServer().getSaveProperties().getGeneratorOptions()).atum$getSeedString();
             if (!creationSeed.isEmpty()) {
                 if (Atum.getSeedProvider().shouldShowSeed()) {
-                    debugText.add("Resetting the seed \"" + creationSeed + "\"");
+                    seedLine = "Resetting the seed \"" + creationSeed + "\"";
                 } else {
-                    debugText.add("Resetting a set seed");
+                    seedLine = "Resetting a set seed";
                 }
             } else {
-                debugText.add("Resetting a random seed");
+                seedLine = "Resetting a random seed";
             }
+            seedLine += ", ";
+            if (Atum.config.gameMode == CreateWorldScreen.Mode.HARDCORE) {
+                seedLine += "hc";
+            } else {
+                seedLine += Atum.config.worldDifficulty.getName().charAt(0);
+            }
+            debugText.add(seedLine);
         }
 
         for (Text text : this.getIllegalSettingsTexts()) {
