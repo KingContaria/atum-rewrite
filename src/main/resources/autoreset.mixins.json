@@ -23,5 +23,8 @@
     "gui.TitleScreenMixin",
     "hotkey.KeyboardMixin",
     "hotkey.MouseMixin"
+  ],
+  "mixins": [
+    "access.ResourcePackManagerAccessor"
   ]
 }

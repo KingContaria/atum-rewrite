@@ -2,6 +2,9 @@ package me.voidxwalker.autoreset;
 
 import me.contaria.speedrunapi.util.TextUtil;
 import me.voidxwalker.autoreset.mixin.access.CreateWorldScreenAccessor;
+import me.voidxwalker.autoreset.mixin.access.ResourcePackManagerAccessor;
+import net.fabricmc.fabric.impl.resource.loader.ModResourcePackCreator;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.MessageScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -10,6 +13,7 @@ import net.minecraft.client.world.GeneratorOptionsHolder;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.DataConfiguration;
 import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.VanillaDataPackProvider;
 import net.minecraft.server.SaveLoading;
 import net.minecraft.util.Util;
@@ -40,6 +44,9 @@ public class AtumCreateWorldScreen extends CreateWorldScreen {
         MinecraftClient client = MinecraftClient.getInstance();
         client.setScreenAndRender(new MessageScreen(TextUtil.translatable("createWorld.preparing")));
         ResourcePackManager resourcePackManager = new ResourcePackManager(new VanillaDataPackProvider());
+        if (FabricLoader.getInstance().isModLoaded("fabric-resource-loader-v0")) {
+            addModResources(resourcePackManager);
+        }
         SaveLoading.ServerConfig serverConfig = CreateWorldScreenAccessor.atum$createServerConfig(resourcePackManager, DataConfiguration.SAFE_MODE);
         CompletableFuture<GeneratorOptionsHolder> completableFuture = SaveLoading.load(serverConfig, (context) -> new SaveLoading.LoadContext<>(new WorldCreationSettings(new WorldGenSettings(GeneratorOptions.createRandom(), WorldPresets.createDemoOptions(context.worldGenRegistryManager())), context.dataConfiguration()), context.dimensionsRegistryManager()), (resourceManager, dataPackContents, combinedDynamicRegistries, generatorOptions) -> {
             resourceManager.close();
@@ -47,6 +54,10 @@ public class AtumCreateWorldScreen extends CreateWorldScreen {
         }, Util.getMainWorkerExecutor(), client);
         client.runTasks(completableFuture::isDone);
         return new AtumCreateWorldScreen(client, parent, completableFuture.join(), Optional.of(WorldPresets.DEFAULT), OptionalLong.empty(), job);
+    }
+
+    private static void addModResources(ResourcePackManager resourcePackManager) {
+        ((ResourcePackManagerAccessor) resourcePackManager).atum$getProviders().add(new ModResourcePackCreator(ResourceType.SERVER_DATA));
     }
 
     public Job getJob() {
